@@ -122,8 +122,10 @@ namespace Monopoly
                             Console.WriteLine("This property is owned by player " + p.Owner.Token);
                             double tax = p.TotalPrice * 0.1;
                             Console.WriteLine("You owe him a tax of $" + tax);
-                        }
-                        
+                            Console.WriteLine("Your current balance is $" + this.money);
+                            this.money = this.money - tax;
+                            Console.WriteLine("After tax your current balance is $" + this.money);
+                        }                       
                     }
                 }
             }
