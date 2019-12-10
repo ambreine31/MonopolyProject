@@ -89,7 +89,6 @@ namespace Monopoly
                         {
                             this.money = this.money - p.PropertyPrice;
                             p.Owner = this;
-                            this.properties.Add(p);
                             Console.WriteLine("You've aquired " + p.Name + " for $" + p.PropertyPrice);
                             Console.WriteLine("Your current balance is $" + this.money);
                         }
