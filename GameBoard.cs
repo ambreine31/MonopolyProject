@@ -31,10 +31,9 @@ namespace Monopoly
             Console.WriteLine(message);
         }
 
-        public void DisplayBoard(PlayerCollection collection)
+        public void DisplayBoard(PlayerCollection collection,List<Property>properties)
         {
             PlayerIterator iterator = collection.CreateIterator();
-            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("|");
@@ -48,9 +47,16 @@ namespace Monopoly
                     if(item.Position == i)
                     {
                         Console.Write(item.Token);
-                    }
-                    
+                    }  
                 }
+                foreach(Property p in properties)
+                {
+                    if(p.Owner != null && p.Box_num == i)
+                    {
+                        Console.Write(p.Owner.Token.ToLower());
+                    }
+                }
+
                 if (i == 0)
                 {
                     Console.Write("START");
@@ -59,7 +65,7 @@ namespace Monopoly
                 {
                     Console.Write("JAIL");
                 }
-                else if (i == 7 || i == 17 || i == 20 || i == 22 || i == 33 || i == 36)
+                else if (i == 2 || i == 4|| i == 7 || i == 17 || i == 20 || i == 22 || i == 33 || i == 36 || i == 38)
                 {
                     Console.Write(" ? ");
                 }
@@ -74,9 +80,9 @@ namespace Monopoly
                 Console.Write("|");
             }
             Console.Write("BACK TO START ->");
+            Console.WriteLine();
+            Console.WriteLine();
         }
-
-
 
     }
 }
