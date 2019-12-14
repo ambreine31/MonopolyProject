@@ -14,6 +14,12 @@ namespace Monopoly
         {
             prop = Prop;
         }
+
+        public int Box_num
+        {
+            get { return prop.Box_num; }
+            set { prop.Box_num = value; }
+        }
         public string Name
         {
             get { return prop.Name; }
@@ -32,6 +38,11 @@ namespace Monopoly
             set { prop.TotalPrice = value; }
         }
 
+        public Player Owner
+        {
+            get { return prop.Owner; }
+            set { prop.Owner = value; }
+        }
         public abstract double SetTotalPrice();
 
     }
