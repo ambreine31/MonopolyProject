@@ -12,7 +12,6 @@ namespace Monopoly
         private string name;
         private double propertyprice;
         private double totalprice;
-        private bool is_sold;
         private Player owner;
 
         public Property(int box_num,string name, double propertyprice)
@@ -21,11 +20,9 @@ namespace Monopoly
             this.name = name;
             this.propertyprice = propertyprice;
             this.totalprice = propertyprice;
-            this.is_sold = false;
             this.owner = null;
 
         }
-
         public int Box_num
         {
             get { return this.box_num; }
@@ -47,17 +44,10 @@ namespace Monopoly
             get { return this.totalprice; }
             set { this.totalprice = value; }
         }
-        public bool Is_sold
-        {
-            get { return this.is_sold; }
-            set { this.is_sold = value; }
-        }
-
         public Player Owner
         {
             get { return this.owner; }
             set { this.owner = value; }
         }
     }
-
 }

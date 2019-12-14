@@ -8,28 +8,35 @@ namespace Monopoly
 {
     class Program
     {
-
-    
-
     
     static void mainText()
         {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("WELCOME TO THE MONOPOLY GAME!");
             Console.WriteLine();
+            Console.WriteLine("Empty boxes like this |  | are properties on sale and boxes with | ? | are mystery boxes.");
+            Console.WriteLine("When a player buys a property, his lower case letter appears in the corresponding box like this |a  |.");
             Console.WriteLine();
             Console.WriteLine("How many players? (2 to 4)");
             int num_players = Convert.ToInt32(Console.ReadLine());
             string[] tokens = new string[] { "A", "B", "C", "D" };
 
             PlayerCollection collection = new PlayerCollection();
-            int initial_money = 100;
+            int initial_money = 2000;
             for (int i = 0; i < num_players; i++)
             {
                 Console.WriteLine("Enter name of player " + (i+1));
                 string name = Console.ReadLine();
                 Console.WriteLine(name + " you will be player " + tokens[i]);
+                Console.WriteLine();
                 collection[i] = new Player(tokens[i], initial_money);
             }
+            Console.WriteLine("Each player starts with $2000");
 
             GameBoard Monopoly = GameBoard.GetInstance;
 
@@ -69,16 +76,16 @@ namespace Monopoly
             // REMOVE PROPERTIES FROM PLAYER AND ADD OWNER TO PROPERTY
 
 
-            Monopoly.DisplayBoard(collection);
+            Monopoly.DisplayBoard(collection,properties);
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Player A starts");
 
             PlayerIterator iterator = collection.CreateIterator();
-            int a = 0;
-            Random generateur = new Random();
+            //int a = 0;
+            Random generator = new Random();
 
-            while (a <8)
+            while (true)
             {
                 for (Player item = iterator.First(); !iterator.IsDone; item = iterator.Next())
                 {
@@ -87,14 +94,69 @@ namespace Monopoly
                     Console.WriteLine("It's Player " + item.Token + "'s turn:");
                     Console.WriteLine("Roll the dice");
                     Console.ReadKey();
-                    item.RollDiceAndMove(generateur);
-                    item.BuyProperty(properties);
+
+                    int isdouble = 0;
+                    if(item.Injail == false)
+                    {
+                        isdouble = item.RollDiceAndMove(generator);
+                        Console.WriteLine();
+                        Monopoly.DisplayBoard(collection, properties);
+                        item.BuyProperty(properties);
+                        Console.ReadKey();
+                        if(isdouble == 1)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("Player " + item.Token + " rolled a double! Play again.");
+                            Console.ReadKey();
+                            isdouble = isdouble + item.RollDiceAndMove(generator);
+                            Console.WriteLine();
+                            Monopoly.DisplayBoard(collection, properties);
+                            item.BuyProperty(properties);
+                            Console.ReadKey();
+                            if (isdouble == 2)
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("Player " + item.Token + " rolled a double once again! Play again.");
+                                Console.ReadKey();
+                                isdouble = isdouble + item.RollDiceAndMove(generator);
+                                Console.WriteLine();
+                                Monopoly.DisplayBoard(collection, properties);
+                                item.BuyProperty(properties);
+                                Console.ReadKey();
+                                if (isdouble == 3)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Player " + item.Token + " rolled a double for the 3rd time! Go to Jail!");
+                                    item.GoToJail();
+                                    Console.WriteLine();
+                                    Monopoly.DisplayBoard(collection, properties);
+                                }
+                            }
+                        }
+
+                    }
+
+                    if(item.Injail == true)
+                    {
+                        Console.WriteLine("Roll a double in order to get out of jail!");
+                        isdouble = item.RollDiceAndMove(generator);
+                        Console.ReadKey();
+                        Monopoly.DisplayBoard(collection, properties);
+                        if(isdouble == 1)
+                        {
+                            Console.WriteLine("You rolled a double!");
+                            item.LeaveJail();
+                        }
+                        else
+                        {
+                            item.TimeInJail();
+                        }
+                        
+                    }
                     Console.WriteLine();
-                    Console.WriteLine();
-                    Monopoly.DisplayBoard(collection);
 
                 }
-                a++;
+               // a++;
             }
             
 
@@ -104,34 +166,7 @@ namespace Monopoly
 
     static void Main(string[] args)
         {
-
-
-            
-            IProperty prop = new Property(2,"madison ave", 1000);
-            PropertyDecorator decorator = new HouseDecorator(prop);
-            Console.WriteLine(decorator.PropertyPrice.ToString());
-            Console.WriteLine(decorator.SetTotalPrice().ToString());
-            Console.WriteLine("prop tot price" + prop.TotalPrice.ToString());
-            Console.WriteLine(decorator.SetTotalPrice().ToString());
-            Console.WriteLine(decorator.SetTotalPrice().ToString());
-            PropertyDecorator decorator2 = new HotelDecorator(decorator);
-            Console.WriteLine(decorator2.SetTotalPrice().ToString());
-
-
-            /*
-            PlayerCollection collection = new PlayerCollection();
-            collection[0] = new Player("A", 2000);
-            collection[1] = new Player("B", 3000);
-
-            PlayerIterator iterator = collection.CreateIterator();
-            Console.WriteLine("All the players:");
-
-            for(Player item = iterator.First(); !iterator.IsDone; item = iterator.Next())
-            {
-                Console.WriteLine(item.Money);
-            }
-            */
-            //mainText();
+            mainText();
             Console.ReadKey();
             
         }
