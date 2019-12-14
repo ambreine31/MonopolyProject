@@ -8,9 +8,10 @@ namespace Monopoly
 {
     public interface IProperty
     {
+        int Box_num { get; set; }
         string Name { get; set; }
         double PropertyPrice { get; set; }
         double TotalPrice { get; set; }
-
+        Player Owner { get; set; }
     }
 }
