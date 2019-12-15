@@ -5,6 +5,7 @@ MonopolyProject
 
 ### Game functionalities 
 #### The Gameboard
+After testing a few different options, I decided the most practical way of displaying the gamebard would be to lay out the entire circuit horizontally. 
 
 #### The Properties
 
