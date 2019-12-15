@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //Aggregate interface used to create iterator object
     public interface IPlayerAggregate
     {
         PlayerIterator CreateIterator();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //to access and traverse aggregate object
     public interface IPlayerIterator
     {
         Player First();

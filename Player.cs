@@ -8,11 +8,11 @@ namespace Monopoly
 {
     public class Player
     {
-        private int position;
-        private string token;
-        private double money;
-        private bool injail;
-        private int time;
+        private int position; //current placement on board
+        private string token; //letter corresponding to token
+        private double money; 
+        private bool injail; //in or out of jail
+        private int time; //time spent in jail
 
         public Player(string token, double money)
         {
@@ -21,7 +21,7 @@ namespace Monopoly
             this.injail = false;
             this.position = 0;
             this.injail = false;
-            this.time = 0;
+            this.time = 0; 
         }
 
         public int Position
@@ -49,17 +49,21 @@ namespace Monopoly
 
         public int RollDiceAndMove(Random generator)
         {
+            //generating dice numbers
             int dice1 = generator.Next(1, 7);
             int dice2 = generator.Next(1, 7);
             Console.WriteLine(this.token + " rolled a " + dice1 + " and a " + dice2);
-
             int sum_dice = dice1 + dice2;
 
             if(this.injail == false)
             {
+                //move the player according to sum of dice
                 this.position = Loop(this.position + sum_dice);
                 Console.WriteLine();
-                if(this.position == 30)
+
+                //some boxes on the monopoly board correspond to specific options like being sent 
+                //to jail, paying a tax, or choosing a chance card
+                if(this.position == 30) 
                 {
                     GoToJail();
                 }
@@ -96,6 +100,7 @@ namespace Monopoly
 
 
             }
+            //returns 1 if the player rolls a double
             if(dice1 == dice2)
             {
                 return 1;
@@ -106,6 +111,7 @@ namespace Monopoly
             }
         }
 
+        //card is picked randomely and results in a move for the Player concerned
         public void ChanceCards(Random generator)
         {
             Console.WriteLine("Pick a Chance Card");
@@ -152,6 +158,7 @@ namespace Monopoly
             
         }
 
+        //sends player to jail position and changes jail status to true
         public void GoToJail()
         {
             this.position = 10;
@@ -166,6 +173,7 @@ namespace Monopoly
             Console.WriteLine("You've been released from jail!");
         }
 
+        //counts jail sentence time and releases player once time is up
         public void TimeInJail()
         {
             time++;
@@ -176,6 +184,9 @@ namespace Monopoly
                 time = 0;
             }
         }
+
+        //if position is off the gameboard limits, loop back to the beginning of the board
+        //and collect $200 from crossing the START 
         public int Loop(int index)
         {
             if (index >= 40)
@@ -194,10 +205,12 @@ namespace Monopoly
         {
             foreach(Property p in properties)
             {
-                if(p.Box_num == this.position)
+                if(p.Box_num == this.position) //if you land on a property
                 {
                     Console.WriteLine();
                     Console.WriteLine("This is property: " + p.Name);
+
+                    //if property isn't owned by a player yet
                     if(p.Owner == null)
                     {
                         Console.WriteLine("This property is up for sale, price is $" + p.PropertyPrice);
@@ -205,7 +218,7 @@ namespace Monopoly
                         Console.WriteLine();
                         Console.WriteLine("Do you wish to buy this property? (y or n)");
                         string response = Console.ReadLine();
-                        if (response == "y")
+                        if (response == "y") //player becomes owner, spends money
                         {
                             this.money = this.money - p.PropertyPrice;
                             p.Owner = this;
@@ -218,9 +231,9 @@ namespace Monopoly
                             Console.WriteLine("You haven't acquired this property");
                         }
                     }
-                    else if(p.Owner != null)
+                    else if(p.Owner != null) //property is already owned
                     {
-                        if(p.Owner == this)
+                        if(p.Owner == this) //property is owned by current player, he can choose to add a house or hotel
                         {
                             Console.WriteLine();
                             Console.WriteLine("This is your property, do you wish to buy a house or hotel?");
@@ -232,7 +245,9 @@ namespace Monopoly
                             Console.Write("Your choice: ");
                             Console.WriteLine();
                             int choice = Convert.ToInt32(Console.ReadLine());
-                            if(choice == 1)
+
+                            //decorators are used to add a house or hotel to the total price of the property
+                            if(choice == 1) 
                             {
                                 HouseDecorator house_decorator = new HouseDecorator(p);
                                 house_decorator.SetTotalPrice();
@@ -253,8 +268,9 @@ namespace Monopoly
                                 Console.WriteLine("No extra purchase was made");
                             }
                         }
-                        if(p.Owner != this)
+                        if(p.Owner != this) //property is owned by an opposing player
                         {
+                            //tax is calculated and paid by current player/received by owner
                             Console.WriteLine("This property is owned by player " + p.Owner.Token);
                             double tax = p.TotalPrice * 0.1;
                             Console.WriteLine("You owe him a tax of $" + tax);

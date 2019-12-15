@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //contains ArrayList of all the players, returns concrete iterator
     public class PlayerCollection:IPlayerAggregate
     {
         private ArrayList playerlist = new ArrayList();

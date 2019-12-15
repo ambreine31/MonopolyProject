@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //component interface that defines a property
     public interface IProperty
     {
         int Box_num { get; set; }
