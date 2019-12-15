@@ -6,52 +6,44 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
-    //concrete component
-    public class Property:IProperty
+    public abstract class PropertyDecorator:IProperty
     {
-        private int box_num;
-        private string name;
-        private double propertyprice;
-        private double totalprice;
-        //used to calculate total tax price (with added houses and hotels)
-        private Player owner;
+        private IProperty prop;
 
-        public Property(int box_num,string name, double propertyprice)
+        public PropertyDecorator(IProperty Prop)
         {
-            this.box_num = box_num;
-            this.name = name;
-            this.propertyprice = propertyprice;
-            this.totalprice = propertyprice;
-            this.owner = null;
-            //at the start of the game no properties are owned by players
-
+            prop = Prop;
         }
+
         public int Box_num
         {
-            get { return this.box_num; }
-            set { this.box_num = value; }
+            get { return prop.Box_num; }
+            set { prop.Box_num = value; }
         }
         public string Name
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return prop.Name; }
+            set { prop.Name = value; }
         }
-
+        
         public double PropertyPrice
         {
-            get { return this.propertyprice; }
-            set { this.propertyprice = value; }
+            get { return prop.PropertyPrice; }
+            set { prop.PropertyPrice = value; }
         }
+
         public double TotalPrice
         {
-            get { return this.totalprice; }
-            set { this.totalprice = value; }
+            get { return prop.TotalPrice; }
+            set { prop.TotalPrice = value; }
         }
+
         public Player Owner
         {
-            get { return this.owner; }
-            set { this.owner = value; }
+            get { return prop.Owner; }
+            set { prop.Owner = value; }
         }
-    }
+        public abstract double SetTotalPrice();
 
+    }
 }
