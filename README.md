@@ -86,21 +86,79 @@ The last important function of this class is:
 
 This function works in several steps:
 
-- first it checks if current player position is on a box corresponding to a Property
-- if yes, it then checks the property's Owner status
-  - if Owner is null it asks the player if he wants to buy the current property and adjusts money/ownership status accordingly
-  - if Owner is the current player he can choose to add a house or hotel to his property which adds to the total value
-  - if Owner is an opposing player a tax is calculated (10% of total property price) which the current player has to pay and the property owner receives
+- First it checks if current player position is on a box corresponding to a Property
+- If yes, it then checks the property's Owner status
+  - If Owner is null it asks the player if he wants to buy the current property and adjusts money/ownership status accordingly
+  - If Owner is the current player he can choose to add a house or hotel to his property which adds to the total value
+  - If Owner is an opposing player a tax is calculated (10% of total property price) which the current player has to pay and the property owner receives
   
 ### Design Patterns
 #### Singleton
+![singleton_pattern_uml_diagram](https://user-images.githubusercontent.com/58735251/70866285-0d64ef80-1f68-11ea-8fc8-043c75be7ec4.jpg)
 
+The Monopoly Gameboard was made using a singleton design pattern so that only a single instance of the board could exist at a time.
+This works thanks to the GetInstance function:
+
+```c#
+        public static GameBoard GetInstance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new GameBoard();
+                return instance;
+            }
+        }
+```
+This function allows for a GameBoard to be constructed only in the event that an instance does not already exist.
+I tested this pattern using a counter that incremented whenever a new instance of the gameboard was called and made sure that the counter value stayed at 1 even when a second gameboard was called in the main. This is useful because it makes sure that any future references to the gameboard lead to the instance created.
+As recommended from a video (https://www.youtube.com/watch?v=LypTOnfkfvA) I made my GameBoard class a *sealed* class because it prevents any inheritance of the GameBoard, as it is not permitted in the singleton design pattern.
 
 #### Iterator
+![500px-Iterator_UML_class_diagram svg](https://user-images.githubusercontent.com/58735251/70866293-1e156580-1f68-11ea-865a-a8952bae018b.png)
+
+I decided to use an iterator design pattern to traverse all of the participants in the game.
+For this I had to create several different structures:
+- First of all my collections item, the **Player** class, containing the player attributes, constructor and functions
+- The aggregate interface **IPlayerAggregate** an interface used to create an iterator object
+- The concrete aggregate class **PlayerCollection** which contains an ArrayList of players and implements the IPlayerAggregate interface (returns a concrete iterator)
+- The iterator interface **IPlayerIterator** an interface created to access and traverse an aggregate object
+- The concrete iterator class **PlayerIterator** which implements the iterator interface and contains all of the functions to cycle through every element of a player collection
+
+In the main() this is how we use the iterator function:
+```c#
+        PlayerCollection collection = new PlayerCollection();
+        ...
+        PlayerIterator iterator = collection.CreateIterator();
+        for (Player item = iterator.First(); !iterator.IsDone; item = iterator.Next()){      
+                ...
+        }
+```
+A player collection is initialized with the corresponding players. A player iterator is then created for this collection. Finally, the iterator is used in a for loop to traverse each of the Players one at a time using the above implemented functions.
 
 #### Decorator
+![400px-Decorator_UML_class_diagram svg](https://user-images.githubusercontent.com/58735251/70866297-27063700-1f68-11ea-9911-9896fc401b77.png)
 
+The decorator design pattern was used as a way of extending the functionality of the Property class without altering the existing structure. The functionality that I wanted to add was increasing the total price of the property when the player adds a house or hotel to his property.
+For this I implemented the decorator pattern uml:
+- **IProperty** is the component, an interface that defines a property
+- **Property** is the concrete component, that implements IProperty
+- **PropertyDecorator** is the decorator, it encloses the IProperty component in an object to add design methods to it
+```c#
+    public abstract class PropertyDecorator:IProperty
+    {
+        private IProperty prop;
 
+        public PropertyDecorator(IProperty Prop)
+        {
+            prop = Prop;
+        }
+        ...
+        public abstract double SetTotalPrice();
+    }
+```
+As we can see this is acheived by having the IProperty enclosed in the constructor of PropertyDecorator. We then added the abstract method SetTotalPrice() which is what will be used to change the price according to the houses or hotels added.
+- **HouseDecorator** and **HotelDecorator** are both concrete decorators extended from the PropertyDecorator. They implement the SetTotalPrice() methods and add value to the total price of the property when called.
 
-
+I chose 
 
