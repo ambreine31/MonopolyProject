@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //concrete component
     public class Property:IProperty
     {
         private int box_num;
         private string name;
         private double propertyprice;
         private double totalprice;
+        //used to calculate total tax price (with added houses and hotels)
         private Player owner;
 
         public Property(int box_num,string name, double propertyprice)
@@ -21,6 +23,7 @@ namespace Monopoly
             this.propertyprice = propertyprice;
             this.totalprice = propertyprice;
             this.owner = null;
+            //at the start of the game no properties are owned by players
 
         }
         public int Box_num
@@ -50,4 +53,5 @@ namespace Monopoly
             set { this.owner = value; }
         }
     }
+
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //decorator, encloses prop in the constructor to add the abstract method to it
     public abstract class PropertyDecorator:IProperty
     {
         private IProperty prop;

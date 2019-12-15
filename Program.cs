@@ -11,6 +11,7 @@ namespace Monopoly
     
     static void mainText()
         {
+            //Game welcome messages and explanations
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
@@ -26,6 +27,8 @@ namespace Monopoly
             int num_players = Convert.ToInt32(Console.ReadLine());
             string[] tokens = new string[] { "A", "B", "C", "D" };
 
+
+            //creating the collection of all the players with their initial money
             PlayerCollection collection = new PlayerCollection();
             int initial_money = 2000;
             for (int i = 0; i < num_players; i++)
@@ -38,8 +41,10 @@ namespace Monopoly
             }
             Console.WriteLine("Each player starts with $2000");
 
+            //instantiating the gameboard
             GameBoard Monopoly = GameBoard.GetInstance;
 
+            //initializing the list of properties with all of the corresponding names
             List<Property> properties = new List<Property>();
             properties.Add(new Property(1, "Mediterranean Avenue", 60));
             properties.Add(new Property(3, "Baltic Avenue", 60));
@@ -70,23 +75,20 @@ namespace Monopoly
             properties.Add(new Property(37, "Park Place", 350));
             properties.Add(new Property(39, "Boardwalk", 400));
 
-
-
-            // ADD ATTRIBUTES TO PROPERTY INTERFACE
-            // REMOVE PROPERTIES FROM PLAYER AND ADD OWNER TO PROPERTY
-
-
+            //displaying the gameboard
             Monopoly.DisplayBoard(collection,properties);
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Player A starts");
 
+            //initializing player iterator and random generator
             PlayerIterator iterator = collection.CreateIterator();
-            //int a = 0;
             Random generator = new Random();
 
+            //the game runs on an infinite loop
             while (true)
             {
+                //using the iterator, players play one after the other
                 for (Player item = iterator.First(); !iterator.IsDone; item = iterator.Next())
                 {
                     Console.WriteLine();
@@ -98,13 +100,17 @@ namespace Monopoly
                     int isdouble = 0;
                     if(item.Injail == false)
                     {
+                        //player rolls the dice, moves and is asked if he wants to buy the
+                        //corresponding property
                         isdouble = item.RollDiceAndMove(generator);
                         Console.WriteLine();
                         Monopoly.DisplayBoard(collection, properties);
                         item.BuyProperty(properties);
                         Console.ReadKey();
+
                         if(isdouble == 1)
                         {
+                            //if the player rolled a double he plays once more
                             Console.WriteLine();
                             Console.WriteLine("Player " + item.Token + " rolled a double! Play again.");
                             Console.ReadKey();
@@ -115,6 +121,7 @@ namespace Monopoly
                             Console.ReadKey();
                             if (isdouble == 2)
                             {
+                                //same process if he rolls double again
                                 Console.WriteLine();
                                 Console.WriteLine("Player " + item.Token + " rolled a double once again! Play again.");
                                 Console.ReadKey();
@@ -125,6 +132,7 @@ namespace Monopoly
                                 Console.ReadKey();
                                 if (isdouble == 3)
                                 {
+                                    //after the third double he is sent to jail
                                     Console.WriteLine();
                                     Console.WriteLine("Player " + item.Token + " rolled a double for the 3rd time! Go to Jail!");
                                     item.GoToJail();
@@ -138,6 +146,8 @@ namespace Monopoly
 
                     if(item.Injail == true)
                     {
+                        //if the player is in jail he rolls the dice but only gets out if he rolls a
+                        //double or serves his sentence
                         Console.WriteLine("Roll a double in order to get out of jail!");
                         isdouble = item.RollDiceAndMove(generator);
                         Console.ReadKey();
@@ -156,7 +166,6 @@ namespace Monopoly
                     Console.WriteLine();
 
                 }
-               // a++;
             }
             
 

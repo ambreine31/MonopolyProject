@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //this is the iterator design pattern that allows us to cycle through all of the Players
+    //contained in our player collection
     public class PlayerIterator:IPlayerIterator
     {
         private PlayerCollection players;
