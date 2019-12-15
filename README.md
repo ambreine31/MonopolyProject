@@ -41,10 +41,10 @@ At each point in the game we have his current position on the board, the letter 
 
 This class contains most of the gameplay functions:
 ```c#
-        RollDiceAndMove(Random generator)
+        RollDiceAndMove(Random generator){ ..}
 ```
 This function generates the dice numbers and uses the sum of the dice to move the player position forward.
-It also calls specific instructions for some boxes on the gameboard. For example, 30 is *Go to Jail* and some boxes indicated by *| ? |* are mystery boxes that let you pick a Chance Card (generated randomely). Here is an example of the function that is called to send a Player to jail:
+It also calls specific instructions for some boxes on the gameboard. For example, 30 is *Go to Jail* and some boxes indicated by *| ? |* are mystery boxes that let you pick a Chance Card (generated randomly). Here is an example of the function that is called to send a Player to jail:
 
 ```c#
          public void GoToJail()
@@ -81,7 +81,7 @@ If adding the sum of the dice leads to a number that is off the limits of the ga
 
 The last important function of this class is:
 ```c#
-        public void BuyProperty(List<Property> properties)
+        public void BuyProperty(List<Property> properties){...}
 ```
 
 This function works in several steps:
@@ -160,5 +160,9 @@ For this I implemented the decorator pattern uml:
 As we can see this is acheived by having the IProperty enclosed in the constructor of PropertyDecorator. We then added the abstract method SetTotalPrice() which is what will be used to change the price according to the houses or hotels added.
 - **HouseDecorator** and **HotelDecorator** are both concrete decorators extended from the PropertyDecorator. They implement the SetTotalPrice() methods and add value to the total price of the property when called.
 
-I chose 
+I chose this design pattern because i wanted a way to be able to increase the price of each house or hotel added on top of the property price and this was a technique that allowed me to pile on the houses and hotels at will. 
 
+
+Special thanks:
+- Kudvenkat design pattern tutorials on youtube
+- exceptionnotfound.net design pattern examples
