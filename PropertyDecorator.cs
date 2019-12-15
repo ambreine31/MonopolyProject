@@ -6,44 +6,52 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
-    public abstract class PropertyDecorator:IProperty
+    //concrete component
+    public class Property:IProperty
     {
-        private IProperty prop;
+        private int box_num;
+        private string name;
+        private double propertyprice;
+        private double totalprice;
+        //used to calculate total tax price (with added houses and hotels)
+        private Player owner;
 
-        public PropertyDecorator(IProperty Prop)
+        public Property(int box_num,string name, double propertyprice)
         {
-            prop = Prop;
-        }
+            this.box_num = box_num;
+            this.name = name;
+            this.propertyprice = propertyprice;
+            this.totalprice = propertyprice;
+            this.owner = null;
+            //at the start of the game no properties are owned by players
 
+        }
         public int Box_num
         {
-            get { return prop.Box_num; }
-            set { prop.Box_num = value; }
+            get { return this.box_num; }
+            set { this.box_num = value; }
         }
         public string Name
         {
-            get { return prop.Name; }
-            set { prop.Name = value; }
+            get { return this.name; }
+            set { this.name = value; }
         }
-        
+
         public double PropertyPrice
         {
-            get { return prop.PropertyPrice; }
-            set { prop.PropertyPrice = value; }
+            get { return this.propertyprice; }
+            set { this.propertyprice = value; }
         }
-
         public double TotalPrice
         {
-            get { return prop.TotalPrice; }
-            set { prop.TotalPrice = value; }
+            get { return this.totalprice; }
+            set { this.totalprice = value; }
         }
-
         public Player Owner
         {
-            get { return prop.Owner; }
-            set { prop.Owner = value; }
+            get { return this.owner; }
+            set { this.owner = value; }
         }
-        public abstract double SetTotalPrice();
-
     }
+
 }
