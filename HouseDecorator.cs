@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //when a house is added to a property, the total property price is increased
     public class HouseDecorator:PropertyDecorator
     {
         public HouseDecorator(IProperty prop):base(prop)

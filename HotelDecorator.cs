@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    //when a hotel added to a property, the total property price is increased even more
     public class HotelDecorator:PropertyDecorator
     {
         public HotelDecorator(IProperty prop) : base(prop)

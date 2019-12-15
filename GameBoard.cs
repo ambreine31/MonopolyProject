@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Monopoly
 {
+    // class is sealed to prevent inheritance
     public sealed class GameBoard
     {
         private static int counter = 0;
         private static GameBoard instance = null;
-        
 
+        //singleton DP alows for only 1 instance of the gameboard
         public static GameBoard GetInstance
         {
             get
@@ -21,16 +22,17 @@ namespace Monopoly
                 return instance;
             }
         }
+
+        //this counter can be used to check that only one instance can be created
         private GameBoard()
         {
             counter++;
             //Console.WriteLine("Counter Value " + counter.ToString());
         }
-        public void PrintDetails(string message)
-        {
-            Console.WriteLine(message);
-        }
 
+        //displays the horizontal monopoly board
+        //some boxes are labeled (jail, mystery boxes)
+        //properties that are owned by a player will contain the corresponding lowercase letter
         public void DisplayBoard(PlayerCollection collection,List<Property>properties)
         {
             PlayerIterator iterator = collection.CreateIterator();
@@ -41,7 +43,7 @@ namespace Monopoly
 
             for (int i = 0; i < 40; i++)
             {
-
+                //placing player tokens in their positions
                 for (Player item = iterator.First(); !iterator.IsDone; item = iterator.Next())
                 {
                     if(item.Position == i)
@@ -49,6 +51,7 @@ namespace Monopoly
                         Console.Write(item.Token);
                     }  
                 }
+                //placing properties according to each player
                 foreach(Property p in properties)
                 {
                     if(p.Owner != null && p.Box_num == i)
